@@ -1,0 +1,4 @@
+
+github "Alamofire/Alamofire"
+github "SwiftyJSON/SwiftyJSON"
+github "kishikawakatsumi/KeychainAccess"
