@@ -112,10 +112,31 @@
                                     <segue destination="9Nr-Cs-2Uy" kind="show" id="xqO-il-fFQ"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="W57-pc-tqL">
+                                <rect key="frame" x="137" y="407" width="100" height="40"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="6WY-Xa-RwF"/>
+                                    <constraint firstAttribute="height" constant="40" id="SDw-L3-OZp"/>
+                                </constraints>
+                                <state key="normal" title="Test API">
+                                    <color key="titleColor" red="0.055360227040000001" green="0.6911604227" blue="0.66710056449999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="testAPIButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vRx-cR-pR6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.055360227044444481" green="0.69116042274166667" blue="0.66710056453333322" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="W57-pc-tqL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="9Oq-4m-MT2"/>
                             <constraint firstItem="FaN-sX-8K1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DEG-sA-fDR"/>
+                            <constraint firstItem="W57-pc-tqL" firstAttribute="top" secondItem="FaN-sX-8K1" secondAttribute="bottom" constant="40" id="DiE-eD-t42"/>
                             <constraint firstItem="JDS-At-mJl" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="-100" id="Fkb-Gl-qyv"/>
                             <constraint firstItem="JDS-At-mJl" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.8" id="HuS-vC-GeO"/>
                             <constraint firstItem="JDS-At-mJl" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JN2-nG-IhA"/>
@@ -151,7 +172,7 @@
                                 <rect key="frame" x="127.5" y="238" width="120" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="ZH4-AL-8zA"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="ZH4-AL-8zA"/>
                                 </constraints>
                                 <state key="normal" title="Create Base">
                                     <color key="titleColor" red="0.055360227040000001" green="0.6911604227" blue="0.66710056449999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -181,7 +202,7 @@
                                 <rect key="frame" x="112.5" y="318" width="150" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="a2c-TS-vae"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="a2c-TS-vae"/>
                                 </constraints>
                                 <state key="normal" title="Display user details">
                                     <color key="titleColor" red="0.055360227040000001" green="0.6911604227" blue="0.66710056449999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -199,7 +220,7 @@
                                 <rect key="frame" x="127.5" y="358" width="120" height="30"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="gST-A8-7PV"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="gST-A8-7PV"/>
                                 </constraints>
                                 <state key="normal" title="Display bases">
                                     <color key="titleColor" red="0.055360227040000001" green="0.6911604227" blue="0.66710056449999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -455,7 +476,6 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                     <connections>
-                                                        <action selector="loginButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RW2-2s-ojh"/>
                                                         <action selector="registerButtonTapped:" destination="9Nr-Cs-2Uy" eventType="touchUpInside" id="4o1-Fn-biu"/>
                                                     </connections>
                                                 </button>

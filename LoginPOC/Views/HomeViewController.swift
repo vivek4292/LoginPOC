@@ -40,7 +40,7 @@ class HomeViewController: UIViewController {
     }
     
     @IBAction func displayBasesButtonTapped(_ sender: UIButton) {
-        APIManager.shared.fetchAllBasesForTheCurrentUser(completion: {(success, bases, error) in
+        APIManager.shared.getAllBasesForTheCurrentUser(completion: {(success, bases, error) in
             
             if success{
                 if bases?.count != 0 {
@@ -70,7 +70,7 @@ class HomeViewController: UIViewController {
             APIManager.shared.createNewBaseWithValues(parameters: parameters, completion: { (success, newBase, error) in
                 
                 if success {
-                    debugPrint(newBase)
+                    debugPrint(newBase!)
                 }else{
                     // Will display error
                     let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)

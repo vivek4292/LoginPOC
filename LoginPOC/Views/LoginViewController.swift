@@ -75,7 +75,29 @@ class LoginViewController: UIViewController {
         }
     }
     
-
+    @IBAction func testAPIButtonTapped(_ sender: UIButton){
+//        let tableId = "5a448f899d03001e48c57856""
+        let baseId = "5a4491859d03001e48c57857"
+        let parameters = [
+            "name": "Testing_Table"
+        ]
+//        APIManager.shared.getDataForTableWith(id: tableId, completion: {(success, tableData, error) in
+//            if success {
+//                debugPrint(tableData)
+//            }else{
+//                debugPrint(error)
+//            }
+//
+//        })
+        
+        APIManager.shared.createNewTableForTheBaseWith(baseId: baseId, parameters: parameters, completion: {(success, newTable, error) in
+            if success {
+                debugPrint(newTable!)
+            }else{
+                debugPrint(error ?? "Error")
+            }
+        })
+    }
     
     
     // Validate the required text fields

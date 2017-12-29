@@ -11,11 +11,11 @@ import Alamofire
 import SwiftyJSON
 
 
-
 enum RequestType: String {
     case getToken = "v1/token"
     case createUser = "v1/users"
     case requestBases = "v1/bases"
+    case requestTable = "v1/tables"
 }
 
 class APIManager: NSObject {
@@ -24,6 +24,8 @@ class APIManager: NSObject {
     let baseUrl = "http://206.205.101.39:8080/api/"
     
     var requestingNewToken = false
+    
+    // MARK:- Login/Signup web services
     
     //  Accept username & password and return token
     func doLoginFor(username: String, password: String, completion:@escaping (_ success: Bool, _ error: String?) -> Void ) {
@@ -36,7 +38,6 @@ class APIManager: NSObject {
                 completion(false, error)
             }
         })
-        
     }
     
     // Will take username and password as argument and provide security token
@@ -115,7 +116,9 @@ class APIManager: NSObject {
         })
     }
     
-    func fetchAllBasesForTheCurrentUser(completion:@escaping(_ success: Bool,_ bases: [[String:Any]]?,_ error: String?) -> Void){
+    // MARK:- GET Web services
+    // Will get all the bases for the logged in user
+    func getAllBasesForTheCurrentUser(completion:@escaping(_ success: Bool,_ bases: [[String:Any]]?,_ error: String?) -> Void){
         
         let savedToken = KeyChainManager.shared.getToken()
         
@@ -124,7 +127,7 @@ class APIManager: NSObject {
             APIManager.shared.retrieveNewTokenForExistingUsernameAndPassword(completion: { (success, newToken, error) in
                 
                 if success {
-                    APIManager.shared.fetchAllBasesForTheCurrentUser(completion:{(success, bases, error ) in
+                    APIManager.shared.getAllBasesForTheCurrentUser(completion:{(success, bases, error ) in
                         completion(success, bases, error)
                     })
                 }else{
@@ -169,7 +172,7 @@ class APIManager: NSObject {
                             APIManager.shared.requestTokenFor(username: savedUsername, password: savedPassword, completion:{ (success, token, errorMessage) in
                                 
                                 if success {
-                                    APIManager.shared.fetchAllBasesForTheCurrentUser(completion:{(success, bases, error ) in
+                                    APIManager.shared.getAllBasesForTheCurrentUser(completion:{(success, bases, error ) in
                                         completion(success, bases, error)
                                     })
                                 }else{
@@ -189,6 +192,82 @@ class APIManager: NSObject {
     }
     
     
+    // Will take table_id of the table and return tabale data for same table_id
+    func getDataForTableWith(id: String, completion:@escaping(_ success: Bool,_ tableData: [String:Any]?,_ error: String?) -> Void) {
+        
+        let savedToken = KeyChainManager.shared.getToken()
+        
+        if savedToken == "" {
+            // When no saved token is found try to retrieve token from existing username & password stored in keychain
+            APIManager.shared.retrieveNewTokenForExistingUsernameAndPassword(completion: { (success, newToken, error) in
+                
+                if success {
+                    APIManager.shared.getDataForTableWith(id: id, completion: {(success, tableData, error) in
+                        completion(success, tableData, error)
+                    })
+                }else{
+                    // Prompt to login again
+                }
+            })
+        } else {
+            //if token is available, try to make api call; if that fails and it's due to status code "401/403 Unauthorized"; try to get a new token using the saved "Username" and "Password"; if that doesnt work make user login again.
+            
+            let bearer = "Bearer \(savedToken)"
+            
+            let header = [
+                "Authorization": bearer
+            ]
+            
+            let fullURL = baseUrl + RequestType.requestTable.rawValue + "/" + id
+            
+            //Make a request for the bases for current user
+            
+            Alamofire.request(fullURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: header).responseJSON(completionHandler: { response in
+                
+                if response.response != nil {
+                    let statusCode = response.response!.statusCode
+                    if statusCode == 200 {
+                        if response.result.value != nil && response.result.isSuccess  {
+                            let json = JSON(response.result.value as Any)
+                            let tableData = json.dictionaryObject!
+                            completion(true, tableData,nil)
+                        } else {
+                            completion(false, nil, "No data is available")
+                        }
+                    }else if statusCode == 401 || statusCode == 403 {
+                        
+                        if self.requestingNewToken == false {
+                            
+                            //request a new token on the first failed attempt with 401
+                            
+                            let savedUsername = KeyChainManager.shared.getUserName()
+                            let savedPassword = KeyChainManager.shared.getPassword()
+                            
+                            APIManager.shared.requestTokenFor(username: savedUsername, password: savedPassword, completion:{ (success, token, errorMessage) in
+                                
+                                if success {
+                                    APIManager.shared.getDataForTableWith(id: id, completion: {(success, tableData, error) in
+                                        completion(success, tableData, error)
+                                    })
+                                }else{
+                                    self.requestingNewToken = true
+                                    // Prompt to login again
+                                }
+                            })
+                        }
+                    } else {
+                        completion(false, nil,"Autherization failed. ")
+                    }
+                } else {
+                    completion(false, nil , "The Internet connection appears to be offline." )
+                }
+            })
+        }
+    }
+    
+    //MARK:- POST Web services
+    
+    // Will create a new base with details in parameters
     func createNewBaseWithValues(parameters:[String:String], completion:@escaping(_ success: Bool,_ base: [String:Any]?,_ error: String?) -> Void){
         
         let savedToken = KeyChainManager.shared.getToken()
@@ -257,6 +336,73 @@ class APIManager: NSObject {
             })
         }
     }
+    
+    
+    // Will take base_id as argumnet & table details as parameters and create new table for the base with base_id
+    func createNewTableForTheBaseWith(baseId: String, parameters: [String:String], completion:@escaping(_ success: Bool,_ newTable: [String: Any]?,_ error: String?) -> Void){
+        
+        APIManager.shared.checkForExistingTokenAndReturnValidSecurityToken(completion: {(success, token, error) in
+            if success{
+                //if token is available, try to make api call; if that fails and it's due to status code "401/403 Unauthorized"; try to get a new token using the saved "Username" and "Password"; if that doesnt work make user login again.
+                
+                let bearer = "Bearer \(token!)"
+                
+                let header = [
+                    "Authorization": bearer
+                ]
+                
+                let fullURL = self.baseUrl + RequestType.requestBases.rawValue + "/" + baseId + "/tables"
+                
+                //Make a request for the bases for current user
+                
+                Alamofire.request(fullURL, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: header).responseJSON(completionHandler: { response in
+                    
+                    if response.response != nil {
+                        let statusCode = response.response!.statusCode
+                        if statusCode == 201 {
+                            if response.result.value != nil && response.result.isSuccess  {
+                                let json = JSON(response.result.value as Any)
+                                let tableData = json.dictionaryObject!
+                                completion(true, tableData,nil)
+                            } else {
+                                completion(false, nil, "No data is available")
+                            }
+                        }else if statusCode == 401 || statusCode == 403 {
+                            
+                            if self.requestingNewToken == false {
+                                
+                                //request a new token on the first failed attempt with 401
+                                
+                                let savedUsername = KeyChainManager.shared.getUserName()
+                                let savedPassword = KeyChainManager.shared.getPassword()
+                                
+                                APIManager.shared.requestTokenFor(username: savedUsername, password: savedPassword, completion:{ (success, token, errorMessage) in
+                                    
+                                    if success {
+                                        APIManager.shared.getDataForTableWith(id: baseId, completion: {(success, tableData, error) in
+                                            completion(success, tableData, error)
+                                        })
+                                    }else{
+                                        self.requestingNewToken = true
+                                        // Prompt to login again
+                                    }
+                                })
+                            }
+                        } else {
+                            completion(false, nil,"Autherization failed. ")
+                        }
+                    } else {
+                        completion(false, nil , "The Internet connection appears to be offline." )
+                    }
+                })
+            }else{
+                // prompt to login again
+            }
+        })
+        
+    }
+    
+    //MARK:-
 
     // Will generate new security token when existing token get expire
     func retrieveNewTokenForExistingUsernameAndPassword(completion:@escaping(_ success: Bool,_ token: String,_ error: String?) -> Void){
@@ -274,5 +420,30 @@ class APIManager: NSObject {
                 completion(false, "", error)
             }
         })
+    }
+    
+    // Check for the valid token
+    func checkForExistingTokenAndReturnValidSecurityToken(completion:@escaping(_ success: Bool,_ token: String?,_ error: String?) -> Void) {
+        let savedToken = KeyChainManager.shared.getToken()
+
+        if savedToken == "" {
+            // When no saved token is found try to retrieve new token from existing username & password stored in keychain
+            //if that doesnt work we have to make user login again.
+            
+            let sharedKeychainManager = KeyChainManager.shared
+            let savedUsername = "\(sharedKeychainManager.getUserName())"
+            let savedPassword = "\(sharedKeychainManager.getPassword())"
+            
+            APIManager.shared.requestTokenFor(username: savedUsername, password: savedPassword, completion: {(success, newToken, error) in
+                
+                if success {
+                    completion(true, newToken, nil)
+                } else {
+                    completion(false, "", error)
+                }
+            })
+        }else{
+            completion(true, savedToken, nil)
+        }
     }
 }
