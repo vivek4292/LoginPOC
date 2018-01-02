@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+import SwiftyJSON
 
 class HomeViewController: UIViewController {
     
@@ -44,7 +46,7 @@ class HomeViewController: UIViewController {
             
             if success{
                 if bases?.count != 0 {
-                    debugPrint(bases!)
+                    self.saveInCoreDataWith(array: bases!)
                 }else{
                     // Will display error for no data
                     let alert = UIAlertController(title: "", message: "There are no bases to display", preferredStyle: .alert)
@@ -80,14 +82,18 @@ class HomeViewController: UIViewController {
             })
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+   
+    
+    // Core Data Methods
+    private func createBaseEntityFrom(json: JSON) -> NSManagedObject? {
+        let newBase = Base.create(json: json)
+        return newBase
     }
-    */
+    
+    
+    private func saveInCoreDataWith(array: [JSON]) {
+        _ = array.map{self.createBaseEntityFrom(json: $0)}
+        CoreDataManager.shared.saveContext()
+    }
 
 }

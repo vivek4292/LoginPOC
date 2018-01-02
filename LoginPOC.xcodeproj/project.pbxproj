@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		BC278E901FF379A70032099B /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC278E8F1FF379A70032099B /* HomeViewController.swift */; };
+		BC30A1CB1FFBA5D500E984F0 /* LoginPOC.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC30A1C91FFBA5D500E984F0 /* LoginPOC.xcdatamodeld */; };
+		BC30A1DE1FFBA84A00E984F0 /* Row+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC30A1D81FFBA84A00E984F0 /* Row+CoreDataClass.swift */; };
+		BC30A1DF1FFBA84A00E984F0 /* Row+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC30A1D91FFBA84A00E984F0 /* Row+CoreDataProperties.swift */; };
+		BC30A1E01FFBA84A00E984F0 /* Table+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC30A1DA1FFBA84A00E984F0 /* Table+CoreDataClass.swift */; };
+		BC30A1E11FFBA84A00E984F0 /* Table+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC30A1DB1FFBA84A00E984F0 /* Table+CoreDataProperties.swift */; };
+		BC30A1E21FFBA84A00E984F0 /* Base+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC30A1DC1FFBA84A00E984F0 /* Base+CoreDataClass.swift */; };
+		BC30A1E31FFBA84A00E984F0 /* Base+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC30A1DD1FFBA84A00E984F0 /* Base+CoreDataProperties.swift */; };
+		BC30A1E51FFBA8D400E984F0 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC30A1E41FFBA8D400E984F0 /* CoreDataManager.swift */; };
 		BC3A8EC71FED1E970031272C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A8EC61FED1E970031272C /* AppDelegate.swift */; };
 		BC3A8EC91FED1E970031272C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC3A8EC81FED1E970031272C /* LoginViewController.swift */; };
 		BC3A8ECC1FED1E970031272C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BC3A8ECA1FED1E970031272C /* Main.storyboard */; };
@@ -46,6 +54,14 @@
 /* Begin PBXFileReference section */
 		BC0FE36A1FED4C3600C0EB0D /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		BC278E8F1FF379A70032099B /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		BC30A1CA1FFBA5D500E984F0 /* LoginPOC.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LoginPOC.xcdatamodel; sourceTree = "<group>"; };
+		BC30A1D81FFBA84A00E984F0 /* Row+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Row+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC30A1D91FFBA84A00E984F0 /* Row+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Row+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BC30A1DA1FFBA84A00E984F0 /* Table+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Table+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC30A1DB1FFBA84A00E984F0 /* Table+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Table+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BC30A1DC1FFBA84A00E984F0 /* Base+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base+CoreDataClass.swift"; sourceTree = "<group>"; };
+		BC30A1DD1FFBA84A00E984F0 /* Base+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BC30A1E41FFBA8D400E984F0 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		BC3A8EC31FED1E970031272C /* LoginPOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoginPOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC3A8EC61FED1E970031272C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BC3A8EC81FED1E970031272C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -77,6 +93,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC30A1C81FFBA4D600E984F0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BC30A1D81FFBA84A00E984F0 /* Row+CoreDataClass.swift */,
+				BC30A1D91FFBA84A00E984F0 /* Row+CoreDataProperties.swift */,
+				BC30A1DA1FFBA84A00E984F0 /* Table+CoreDataClass.swift */,
+				BC30A1DB1FFBA84A00E984F0 /* Table+CoreDataProperties.swift */,
+				BC30A1DC1FFBA84A00E984F0 /* Base+CoreDataClass.swift */,
+				BC30A1DD1FFBA84A00E984F0 /* Base+CoreDataProperties.swift */,
+				BC30A1C91FFBA5D500E984F0 /* LoginPOC.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		BC3A8EBA1FED1E970031272C = {
 			isa = PBXGroup;
 			children = (
@@ -97,8 +127,9 @@
 		BC3A8EC51FED1E970031272C /* LoginPOC */ = {
 			isa = PBXGroup;
 			children = (
-				BC3A8ED81FED27E70031272C /* Controllers */,
+				BC30A1C81FFBA4D600E984F0 /* Models */,
 				BC3A8ED91FED27EE0031272C /* Views */,
+				BC3A8ED81FED27E70031272C /* Controllers */,
 				BC3A8ECD1FED1E970031272C /* Assets.xcassets */,
 				BC3A8ECF1FED1E970031272C /* LaunchScreen.storyboard */,
 				BC3A8ED21FED1E970031272C /* Info.plist */,
@@ -112,6 +143,7 @@
 				BC3A8EC61FED1E970031272C /* AppDelegate.swift */,
 				BC3A8EDC1FED36950031272C /* APIManager.swift */,
 				BC7E3CBA1FF22F1100CD210A /* KeyChainManager.swift */,
+				BC30A1E41FFBA8D400E984F0 /* CoreDataManager.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -210,11 +242,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC30A1CB1FFBA5D500E984F0 /* LoginPOC.xcdatamodeld in Sources */,
 				BC3A8EDD1FED36950031272C /* APIManager.swift in Sources */,
 				BC3A8EC91FED1E970031272C /* LoginViewController.swift in Sources */,
+				BC30A1DF1FFBA84A00E984F0 /* Row+CoreDataProperties.swift in Sources */,
+				BC30A1E11FFBA84A00E984F0 /* Table+CoreDataProperties.swift in Sources */,
+				BC30A1E01FFBA84A00E984F0 /* Table+CoreDataClass.swift in Sources */,
+				BC30A1E21FFBA84A00E984F0 /* Base+CoreDataClass.swift in Sources */,
 				BC3A8EC71FED1E970031272C /* AppDelegate.swift in Sources */,
 				BC7E3CBB1FF22F1100CD210A /* KeyChainManager.swift in Sources */,
 				BC7E3CBF1FF26CA500CD210A /* SignUpViewController.swift in Sources */,
+				BC30A1E31FFBA84A00E984F0 /* Base+CoreDataProperties.swift in Sources */,
+				BC30A1DE1FFBA84A00E984F0 /* Row+CoreDataClass.swift in Sources */,
+				BC30A1E51FFBA8D400E984F0 /* CoreDataManager.swift in Sources */,
 				BC278E901FF379A70032099B /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,7 +329,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -340,7 +380,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -360,7 +400,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = LoginPOC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "E-SaarTechy.LoginPOC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -381,7 +421,7 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = LoginPOC/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "E-SaarTechy.LoginPOC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -412,6 +452,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BC30A1C91FFBA5D500E984F0 /* LoginPOC.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BC30A1CA1FFBA5D500E984F0 /* LoginPOC.xcdatamodel */,
+			);
+			currentVersion = BC30A1CA1FFBA5D500E984F0 /* LoginPOC.xcdatamodel */;
+			path = LoginPOC.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BC3A8EBB1FED1E970031272C /* Project object */;
 }

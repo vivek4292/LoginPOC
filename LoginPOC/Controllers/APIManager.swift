@@ -80,6 +80,8 @@ class APIManager: NSObject {
                     completion(false, "", "The Internet connection appears to be offline.")
                 }
             })
+        }else {
+            // Display invalid credential error
         }
     }
     
@@ -118,7 +120,7 @@ class APIManager: NSObject {
     
     // MARK:- GET Web services
     // Will get all the bases for the logged in user
-    func getAllBasesForTheCurrentUser(completion:@escaping(_ success: Bool,_ bases: [[String:Any]]?,_ error: String?) -> Void){
+    func getAllBasesForTheCurrentUser(completion:@escaping(_ success: Bool,_ bases: [JSON]?,_ error: String?) -> Void){
         
         let savedToken = KeyChainManager.shared.getToken()
         
@@ -155,7 +157,7 @@ class APIManager: NSObject {
                     if statusCode == 200 {
                         if response.result.value != nil && response.result .isSuccess  {
                             let json = JSON(response.result.value as Any)
-                            let bases = json["bases"].arrayObject as! [[String:Any]]
+                            let bases = json["bases"].arrayValue
                             completion(true, bases,nil)
                         } else {
                             completion(false, nil, "No data is available")
@@ -193,7 +195,7 @@ class APIManager: NSObject {
     
     
     // Will take table_id of the table and return tabale data for same table_id
-    func getDataForTableWith(id: String, completion:@escaping(_ success: Bool,_ tableData: [String:Any]?,_ error: String?) -> Void) {
+    func getDataForTableWith(tableId: String, completion:@escaping(_ success: Bool,_ tableData: [String:Any]?,_ error: String?) -> Void) {
         
         let savedToken = KeyChainManager.shared.getToken()
         
@@ -202,7 +204,7 @@ class APIManager: NSObject {
             APIManager.shared.retrieveNewTokenForExistingUsernameAndPassword(completion: { (success, newToken, error) in
                 
                 if success {
-                    APIManager.shared.getDataForTableWith(id: id, completion: {(success, tableData, error) in
+                    APIManager.shared.getDataForTableWith(tableId: tableId, completion: {(success, tableData, error) in
                         completion(success, tableData, error)
                     })
                 }else{
@@ -218,7 +220,7 @@ class APIManager: NSObject {
                 "Authorization": bearer
             ]
             
-            let fullURL = baseUrl + RequestType.requestTable.rawValue + "/" + id
+            let fullURL = baseUrl + RequestType.requestTable.rawValue + "/" + tableId
             
             //Make a request for the bases for current user
             
@@ -246,7 +248,7 @@ class APIManager: NSObject {
                             APIManager.shared.requestTokenFor(username: savedUsername, password: savedPassword, completion:{ (success, token, errorMessage) in
                                 
                                 if success {
-                                    APIManager.shared.getDataForTableWith(id: id, completion: {(success, tableData, error) in
+                                    APIManager.shared.getDataForTableWith(tableId: tableId, completion: {(success, tableData, error) in
                                         completion(success, tableData, error)
                                     })
                                 }else{
@@ -263,6 +265,71 @@ class APIManager: NSObject {
                 }
             })
         }
+    }
+    
+    // Will take base_Id as argument and return array of the tables for that base_id
+    func getAllTheTableForTheBaseWith(baseId: String, completion: @escaping(_ success: Bool,_ tables: [JSON]?,_ error: String?) -> Void) {
+        
+        APIManager.shared.checkForExistingTokenAndReturnValidSecurityToken(completion: { (success, token, error) in
+            
+            if success {
+                //if token is available, try to make api call; if that fails and it's due to status code "401/403 Unauthorized"; try to get a new token using the saved "Username" and "Password"; if that doesnt work make user login again.
+                
+                let bearer = "Bearer \(token!)"
+                
+                let header = [
+                    "Authorization": bearer
+                ]
+                
+                let fullURL = self.baseUrl + RequestType.requestBases.rawValue + "/" + baseId + "/tables"
+                
+                //Make a request for the bases for current user
+                
+                Alamofire.request(fullURL, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: header).responseJSON(completionHandler: { response in
+                    
+                    if response.response != nil {
+                        let statusCode = response.response!.statusCode
+                        if statusCode == 200 {
+                            if response.result.value != nil && response.result.isSuccess  {
+                                let json = JSON(response.result.value as Any)
+                                let baseData = json.dictionaryValue
+                                let tableData = baseData["tables"]?.arrayValue
+                                completion(true, tableData, nil)
+                            } else {
+                                completion(false, nil, "No data is available")
+                            }
+                        }else if statusCode == 401 || statusCode == 403 {
+                            
+                            if self.requestingNewToken == false {
+                                
+                                //request a new token on the first failed attempt with 401
+                                
+                                let savedUsername = KeyChainManager.shared.getUserName()
+                                let savedPassword = KeyChainManager.shared.getPassword()
+                                
+                                APIManager.shared.requestTokenFor(username: savedUsername, password: savedPassword, completion:{ (success, token, errorMessage) in
+                                    
+                                    if success {
+                                        APIManager.shared.getAllTheTableForTheBaseWith(baseId: baseId, completion: {(success, tables, error) in
+                                            completion(success, tables, error)
+                                        })
+                                    }else{
+                                        self.requestingNewToken = true
+                                        // Prompt to login again
+                                    }
+                                })
+                            }
+                        } else {
+                            completion(false, nil,"Autherization failed. ")
+                        }
+                    } else {
+                        completion(false, nil , "The Internet connection appears to be offline." )
+                    }
+                })
+            }else{
+                // prompt user to login again
+            }
+        })
     }
     
     //MARK:- POST Web services
@@ -379,7 +446,7 @@ class APIManager: NSObject {
                                 APIManager.shared.requestTokenFor(username: savedUsername, password: savedPassword, completion:{ (success, token, errorMessage) in
                                     
                                     if success {
-                                        APIManager.shared.getDataForTableWith(id: baseId, completion: {(success, tableData, error) in
+                                        APIManager.shared.createNewTableForTheBaseWith(baseId: baseId, parameters: parameters, completion: {(success, tableData, error) in
                                             completion(success, tableData, error)
                                         })
                                     }else{

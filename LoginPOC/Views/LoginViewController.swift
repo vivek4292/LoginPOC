@@ -8,13 +8,15 @@
 
 import UIKit
 import KeychainAccess
+import CoreData
+import SwiftyJSON
 
 class LoginViewController: UIViewController {
     
     @IBOutlet var usernameTextField: UITextField!
     @IBOutlet var passeordTextField: UITextField!
     
-    var alertController = UIAlertController(title: "", message: "", preferredStyle: .alert)
+    lazy var alertController = UIAlertController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +45,7 @@ class LoginViewController: UIViewController {
             
             APIManager.shared.doLoginFor(username: username, password: password, completion:{ (success, errorMessage) in
                 
-                print("LoginViewController - login \(success)")
+                debugPrint("LoginViewController - login \(success)")
                 if success {
                     //Save credentials here and not in Alamofire or if token is successful and getting initial objects is not, then user will be logged in if they restart the app
                     
@@ -81,6 +83,7 @@ class LoginViewController: UIViewController {
         let parameters = [
             "name": "Testing_Table"
         ]
+        debugPrint(parameters)
 //        APIManager.shared.getDataForTableWith(id: tableId, completion: {(success, tableData, error) in
 //            if success {
 //                debugPrint(tableData)
@@ -90,9 +93,20 @@ class LoginViewController: UIViewController {
 //
 //        })
         
-        APIManager.shared.createNewTableForTheBaseWith(baseId: baseId, parameters: parameters, completion: {(success, newTable, error) in
-            if success {
-                debugPrint(newTable!)
+//        APIManager.shared.createNewTableForTheBaseWith(baseId: baseId, parameters: parameters, completion: {(success, newTable, error) in
+//            if success {
+//                debugPrint(newTable!)
+//            }else{
+//                debugPrint(error ?? "Error")
+//            }
+//        })
+        
+        
+        APIManager.shared.getAllTheTableForTheBaseWith(baseId: baseId, completion: { (success, tables, error) in
+            
+            if success{
+//                debugPrint(tables!)
+                self.saveInCoreDataWith(array: tables!)
             }else{
                 debugPrint(error ?? "Error")
             }
@@ -117,6 +131,20 @@ class LoginViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeViewController_id") as! HomeViewController
         self.navigationController?.pushViewController(homeVC, animated: true)
+    }
+    
+    
+    
+    // Core Data Methods
+    private func createTableEntityFrom(json: JSON) -> NSManagedObject? {
+        let newTable = Table.create(json: json)
+        return newTable
+    }
+    
+    
+    private func saveInCoreDataWith(array: [JSON]) {
+        _ = array.map{self.createTableEntityFrom(json: $0)}
+        CoreDataManager.shared.saveContext()
     }
 
 }
