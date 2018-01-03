@@ -18,13 +18,13 @@ extension Table {
     }
 
     // Attributes
-    @NSManaged public var tableId: String?
-    @NSManaged public var tableName: String?
-    @NSManaged public var tableDescription: String?
+    @NSManaged public var identifier: String?
+    @NSManaged public var name: String?
+    @NSManaged public var desc: String?
     
     // Relationship
-    @NSManaged public var tablesBase: Base?
-    @NSManaged public var tableRows: NSOrderedSet?
+    @NSManaged public var base: Base?
+    @NSManaged public var rows: NSOrderedSet?
 
 }
 

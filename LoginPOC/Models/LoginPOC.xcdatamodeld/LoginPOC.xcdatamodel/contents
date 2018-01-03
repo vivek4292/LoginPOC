@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="16G29" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Base" representedClassName=".Base" syncable="YES">
-        <attribute name="baseDescription" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="baseId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="baseName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="baseRole" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="baseTables" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Table" inverseName="tablesBase" inverseEntity="Table" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="role" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="tables" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Table" inverseName="base" inverseEntity="Table" syncable="YES"/>
     </entity>
     <entity name="Row" representedClassName=".Row" syncable="YES">
         <attribute name="createdTime" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="rowId" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="rowsTable" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Table" inverseName="tableRows" inverseEntity="Table" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="table" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Table" inverseName="rows" inverseEntity="Table" syncable="YES"/>
     </entity>
     <entity name="Table" representedClassName=".Table" syncable="YES">
-        <attribute name="tableDescription" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="tableId" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="tableName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="tableRows" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Row" inverseName="rowsTable" inverseEntity="Row" syncable="YES"/>
-        <relationship name="tablesBase" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Base" inverseName="baseTables" inverseEntity="Base" syncable="YES"/>
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="base" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Base" inverseName="tables" inverseEntity="Base" syncable="YES"/>
+        <relationship name="rows" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Row" inverseName="table" inverseEntity="Row" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Base" positionX="-45" positionY="-147" width="128" height="118"/>
-        <element name="Table" positionX="178" positionY="18" width="128" height="118"/>
-        <element name="Row" positionX="430" positionY="153" width="128" height="88"/>
+        <element name="Base" positionX="-45" positionY="-147" width="128" height="120"/>
+        <element name="Row" positionX="430" positionY="153" width="128" height="90"/>
+        <element name="Table" positionX="178" positionY="18" width="128" height="120"/>
     </elements>
 </model>

@@ -37,9 +37,9 @@ public class Base: NSManagedObject {
     }
     
     public func update(json:JSON) {
-        self.baseId = json["id"].stringValue
-        self.baseName = json["name"].stringValue
-        self.baseDescription = json["description"].stringValue
-        self.baseRole = json["role"].stringValue
+        self.identifier = json["id"].stringValue
+        self.name = json["name"].stringValue
+        self.desc = json["description"].stringValue
+        self.role = json["role"].stringValue
     }
 }

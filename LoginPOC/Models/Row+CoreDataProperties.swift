@@ -17,8 +17,11 @@ extension Row {
         return NSFetchRequest<Row>(entityName: "Row")
     }
 
+    // Attributes
     @NSManaged public var createdTime: NSDate?
-    @NSManaged public var rowId: String?
-    @NSManaged public var rowsTable: Table?
+    @NSManaged public var identifier: String?
+    
+    // Relationship
+    @NSManaged public var table: Table?
 
 }

@@ -18,13 +18,13 @@ extension Base {
     }
 
     // Attributes
-    @NSManaged public var baseDescription: String?
-    @NSManaged public var baseName: String?
-    @NSManaged public var baseId: String?
-    @NSManaged public var baseRole: String?
+    @NSManaged public var desc: String?
+    @NSManaged public var name: String?
+    @NSManaged public var identifier: String?
+    @NSManaged public var role: String?
     
     // Relationship
-    @NSManaged public var baseTables: NSOrderedSet?
+    @NSManaged public var tables: NSOrderedSet?
 
 }
 

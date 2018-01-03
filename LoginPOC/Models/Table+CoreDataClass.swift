@@ -38,8 +38,8 @@ public class Table: NSManagedObject {
     }
 
     public func update(json:JSON) {
-        self.tableId = json["id"].stringValue
-        self.tableName = json["name"].stringValue
-        self.tableDescription = json["description"].stringValue
+        self.identifier = json["id"].stringValue
+        self.name = json["name"].stringValue
+        self.desc = json["description"].stringValue
     }
 }
