@@ -41,5 +41,8 @@ public class Table: NSManagedObject {
         self.identifier = json["id"].stringValue
         self.name = json["name"].stringValue
         self.desc = json["description"].stringValue
+        
+        let records = json["records"]
+        self.records = records.arrayObject as NSObject?
     }
 }

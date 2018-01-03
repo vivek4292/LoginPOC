@@ -20,7 +20,7 @@ extension Row {
     // Attributes
     @NSManaged public var createdTime: NSDate?
     @NSManaged public var identifier: String?
-    
+    @NSManaged public var fields: NSObject?
     // Relationship
     @NSManaged public var table: Table?
 

@@ -9,8 +9,38 @@
 
 import Foundation
 import CoreData
+import SwiftyJSON
 
 
 public class Row: NSManagedObject {
-
+    
+    class func create(json:JSON) -> Table {
+        //Create a new object of the Entity, insert it and set it's attribute
+        let managedObjectContext = CoreDataManager.shared.persistentContainer.viewContext
+        let table = NSEntityDescription.insertNewObject(forEntityName: "Table", into: managedObjectContext) as! Table
+        table.update(json: json)
+        return table
+        
+    }
+    
+    class func all() -> [Table]?{
+        var objects: [Table]?
+        do{
+            let fetchedObjects = try
+                (CoreDataManager.shared.persistentContainer.viewContext.fetch(self.fetchRequest())) as! [Table]
+            if fetchedObjects.count > 0{
+                objects = fetchedObjects
+            }
+        } catch {
+            fatalError("Failed to fetch: \(error)")
+        }
+        return objects
+    }
+    
+    public func update(json:JSON) {
+        self.identifier = json["id"].stringValue
+        
+        let fields = json["fields"]
+        self.fields = fields.dictionaryObject as NSObject?
+    }
 }

@@ -21,6 +21,8 @@ extension Table {
     @NSManaged public var identifier: String?
     @NSManaged public var name: String?
     @NSManaged public var desc: String?
+    @NSManaged public var records: NSObject?
+    
     
     // Relationship
     @NSManaged public var base: Base?

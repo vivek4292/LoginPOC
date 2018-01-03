@@ -22,6 +22,7 @@ extension Base {
     @NSManaged public var name: String?
     @NSManaged public var identifier: String?
     @NSManaged public var role: String?
+    @NSManaged public var baseTables: NSObject?
     
     // Relationship
     @NSManaged public var tables: NSOrderedSet?

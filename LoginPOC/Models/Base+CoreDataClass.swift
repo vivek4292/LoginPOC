@@ -41,5 +41,8 @@ public class Base: NSManagedObject {
         self.name = json["name"].stringValue
         self.desc = json["description"].stringValue
         self.role = json["role"].stringValue
+        
+        let tables = json["tables"]
+        self.baseTables = tables.arrayObject as NSObject?
     }
 }
